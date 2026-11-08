@@ -25,12 +25,9 @@
     <meta name="theme-color" content="#f8fafc">
 
     <style>
-        /* Xóa bỏ mọi hiệu ứng chặn click không mong muốn */
         * { -webkit-tap-highlight-color: transparent; }
-
         .hidden { display: none !important; }
 
-        /* Nền tảng sáng, có gradient nhẹ để làm nổi bật hiệu ứng kính */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
@@ -38,14 +35,12 @@
                 radial-gradient(circle at 10% 20%, rgba(229, 57, 53, 0.08) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
             background-attachment: fixed;
-            color: #1e293b; /* Màu chữ tối để dễ đọc trên nền sáng */
+            color: #1e293b;
             overflow-y: auto !important;
             min-height: 100vh;
         }
 
         /* --- HIỆU ỨNG KÍNH LỎNG NỀN TRẮNG (LIGHT GLASSMORPHISM) --- */
-        
-        /* 1. Thanh Header & Bottom Nav */
         .glass-nav {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(16px) saturate(150%);
@@ -62,7 +57,6 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
-        /* 2. Thẻ (Card) & Bảng (Panel) */
         .glass-card {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
@@ -72,36 +66,59 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
-        
-        .glass-card:active {
-            transform: scale(0.98);
-        }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.8); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); }
+        .glass-card:active { transform: scale(0.98); }
 
-        /* 3. Hiệu ứng phát sáng (Glow) cho các nút đặc biệt */
         .glow-red { box-shadow: 0 0 20px rgba(229, 57, 53, 0.2); }
         .glow-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
         .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
 
-        /* Thanh cuộn */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.2); }
 
-        /* Hiệu ứng nhấp nháy cho khung QR */
         @keyframes pulse-ring { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
         .pulse-ring { animation: pulse-ring 3s infinite ease-in-out; }
+
+        /* --- CSS CHO OPEN CUT STUDIO --- */
+        .opencut-container {
+            width: 100%;
+            height: 75vh; /* Đã hạ xuống 75vh để vừa màn hình điện thoại */
+            min-height: 500px;
+            background: #101522;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .opencut-header {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 14px;
+            color: white;
+            background: #182235;
+        }
+
+        .opencut-header a {
+            color: #8ab4ff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .opencut-container iframe {
+            width: 100%;
+            height: calc(100% - 48px);
+            border: 0;
+        }
     </style>
 </head>
 <body class="flex flex-col justify-between relative pb-24">
 
-    <!-- HEADER -->
     <header class="glass-nav w-full px-4 py-3 flex items-center justify-between z-20 sticky top-0 shrink-0">
-        <!-- Vùng nhấn 5 lần để mở Admin -->
         <div id="secretLogoTrigger" role="button" tabindex="0" class="flex items-center gap-3 cursor-pointer p-1 rounded-xl transition hover:bg-black/5">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brandRed to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
                 ◈
@@ -112,7 +129,6 @@
             </div>
         </div>
 
-        <!-- Thanh công cụ Admin (Ẩn mặc định) -->
         <div id="adminToolbar" class="hidden flex items-center gap-2">
             <button onclick="openAddModal()" class="flex items-center gap-1.5 bg-brandRed hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition shadow-md">
                 <i class="fa-solid fa-plus text-[10px]"></i><span>Thêm</span>
@@ -126,10 +142,8 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-1 max-w-xl w-full mx-auto px-4 py-4 mb-20">
         
-        <!-- TAB KÊNH MXH -->
         <div id="channelTabContent" class="space-y-4">
             <div class="flex items-center justify-between px-1 mb-2">
                 <h2 id="currentTabTitle" class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2"></h2>
@@ -138,7 +152,6 @@
             <div id="channelsListContainer" class="space-y-4"></div>
         </div>
 
-        <!-- TAB WECHAT -->
         <div id="wechatTabContent" class="hidden flex flex-col items-center justify-center pt-2 text-center">
             <div class="w-full max-w-sm glass-card rounded-3xl p-6 shadow-xl flex flex-col items-center relative overflow-hidden">
                 <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mb-3 glow-emerald">
@@ -147,7 +160,6 @@
                 <h3 class="text-lg font-bold text-slate-800 mb-1">👻正👻</h3>
                 <p class="text-xs text-slate-500 mb-5">Quét mã QR chính chủ để kết nối WeChat</p>
                 
-                <!-- Khung QR kính lỏng -->
                 <div class="relative w-56 h-56 rounded-full p-2.5 bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg mb-5 pulse-ring">
                     <div class="w-full h-full bg-white rounded-full p-3 flex items-center justify-center relative overflow-hidden border-4 border-white/50">
                         <img src="wechat-qr.png" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=weixin://dl/chat?heyuan_zheng_2026'" alt="WeChat QR" class="w-full h-full object-cover rounded-full mix-blend-multiply">
@@ -173,7 +185,6 @@
 
         <!-- TAB CÔNG CỤ -->
         <div id="toolsTabContent" class="hidden space-y-4 pt-2">
-            <!-- Menu Công cụ -->
             <div id="toolsMenu" class="grid grid-cols-1 gap-3">
                 <div onclick="openTool('downloader')" class="glass-card rounded-2xl p-5 flex items-center gap-4 cursor-pointer border border-white/80">
                     <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl glow-blue">
@@ -185,24 +196,24 @@
                     </div>
                     <i class="fa-solid fa-chevron-right text-slate-400 ml-auto"></i>
                 </div>
+                
+                <!-- Nút mở OpenCut Studio -->
                 <div onclick="openTool('editor')" class="glass-card rounded-2xl p-5 flex items-center gap-4 cursor-pointer border border-white/80">
                     <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl glow-purple">
                         <i class="fa-solid fa-film"></i>
                     </div>
                     <div>
                         <h3 class="font-bold text-slate-800 text-base">Sửa / Nối Video</h3>
-                        <p class="text-xs text-slate-500 mt-1">Ghép nhiều video thành một.</p>
+                        <p class="text-xs text-slate-500 mt-1">Chỉnh sửa video chuyên nghiệp (Web).</p>
                     </div>
                     <i class="fa-solid fa-chevron-right text-slate-400 ml-auto"></i>
                 </div>
             </div>
 
-            <!-- Công cụ Tải Video -->
             <div id="toolDownloader" class="hidden glass-card rounded-2xl p-5 relative border border-white/80">
                 <button onclick="closeTool()" class="absolute top-4 right-4 w-8 h-8 bg-black/5 hover:bg-black/10 text-slate-600 rounded-full flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
                 <h3 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-cloud-arrow-down text-blue-500 mr-2"></i>Tải Video</h3>
                 
-                <!-- Ô nhập liệu -->
                 <div class="relative mb-2">
                     <input type="url" id="downloadUrlInput" maxlength="500" placeholder="Dán link video (TikTok, Youtube...)" class="w-full bg-white/50 border border-white/60 rounded-xl pl-4 pr-20 py-3 text-sm text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition">
                     <div class="absolute right-1.5 top-1.5 flex gap-1.5">
@@ -220,7 +231,6 @@
                     <i class="fa-solid fa-magnifying-glass"></i> <span>Lấy Video</span>
                 </button>
 
-                <!-- Kết quả -->
                 <div id="downloadResult" class="mt-5 hidden flex-col gap-4">
                     <div class="bg-white/50 p-4 rounded-xl border border-white/60">
                         <p id="vidTitle" class="text-sm font-bold text-slate-800 mb-1 line-clamp-2"># Tiêu đề video</p>
@@ -236,15 +246,24 @@
                 </div>
             </div>
 
-            <!-- Công cụ Nối Video -->
-            <div id="toolEditor" class="hidden glass-card rounded-2xl p-5 relative border border-white/80">
-                <button onclick="closeTool()" class="absolute top-4 right-4 w-8 h-8 bg-black/5 hover:bg-black/10 text-slate-600 rounded-full flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
-                <h3 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-film text-purple-500 mr-2"></i>Nối Video</h3>
-                <p class="text-[11px] text-amber-600 bg-amber-50 p-2 rounded-lg mb-4"><i class="fa-solid fa-circle-exclamation"></i> Khuyến nghị dùng PC để nối video lớn. Trên mobile có thể bị lag.</p>
+            <!-- CÔNG CỤ OPEN CUT STUDIO -->
+            <div id="toolEditor" class="hidden relative">
+                <button onclick="closeTool()" class="absolute top-3 right-3 z-10 w-8 h-8 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition shadow-lg"><i class="fa-solid fa-xmark"></i></button>
                 
-                <input type="file" id="videoFilesInput" accept="video/*" multiple class="w-full text-sm text-slate-500 mb-4 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 transition">
-                <button onclick="startConcat()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg">Nối Video</button>
-                <div id="concatResult" class="mt-4 text-xs text-slate-600"></div>
+                <div class="opencut-container">
+                  <div class="opencut-header">
+                    <span class="font-bold">OpenCut Studio</span>
+                    <a href="https://opencut.app/" target="_blank">
+                      Mở toàn màn hình ↗
+                    </a>
+                  </div>
+                  <iframe
+                    src="https://opencut.app/"
+                    title="OpenCut Video Editor"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; microphone; camera"
+                    allowfullscreen>
+                  </iframe>
+                </div>
             </div>
         </div>
     </main>
@@ -323,16 +342,12 @@
     </div>
 </div>
 
-<!-- TOAST THÔNG BÁO -->
 <div id="toast" class="hidden fixed top-6 left-1/2 -translate-x-1/2 glass-card text-slate-800 text-sm font-semibold px-5 py-3 rounded-2xl shadow-xl z-[60] flex items-center gap-2.5 whitespace-nowrap border border-white/80">
     <i class="fa-solid fa-circle-info text-brandBlue"></i><span id="toastMsg"></span>
 </div>
-    <script>
+        <script>
     'use strict';
 
-    // ==========================================
-    // CẤU HÌNH & BIẾN TOÀN CỤC
-    // ==========================================
     const JSONBIN_ID = "6aeec6a0ac6210605a7487dc"; 
     const JSONBIN_KEY = "$2a$10$hI7P43ZHI26VHT8wDR7y9.kPyyJV.YeC.w/LViVyGm1eUZuzaQlXC";
     const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
@@ -355,9 +370,6 @@
     let logoClickCount = 0;
     let logoClickTimer = null;
 
-    // ==========================================
-    // HÀM TIỆN ÍCH
-    // ==========================================
     function escapeHtml(str) { 
         return str ? String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;") : ''; 
     }
@@ -393,9 +405,6 @@
         toastTimer = setTimeout(() => toast.classList.add('hidden'), 3000);
     }
 
-    // ==========================================
-    // XỬ LÝ DỮ LIỆU (MÁY CHỦ JSONBIN)
-    // ==========================================
     async function loadChannels() {
         try {
             const response = await fetch(JSONBIN_URL + '/latest', {
@@ -424,45 +433,35 @@
         }
     }
 
-    // ==========================================
-    // ĐIỀU HƯỚNG TAB (ĐÃ SỬA LỖI)
-    // ==========================================
     function switchTab(tab) {
         if (!['tiktok', 'youtube', 'facebook', 'wechat', 'tools'].includes(tab)) return;
         currentTab = tab;
 
-        // Reset tất cả các nút về trạng thái bình thường
         document.querySelectorAll('.nav-tab-btn').forEach(btn => {
             btn.className = 'nav-tab-btn flex-1 py-2 rounded-2xl flex flex-col items-center gap-1 text-slate-500 transition hover:bg-black/5';
         });
         
-        // Kích hoạt nút được chọn
         const activeBtn = document.getElementById(`tabBtn-${tab}`);
         if (activeBtn) {
             activeBtn.className = 'nav-tab-btn flex-1 py-2 rounded-2xl flex flex-col items-center gap-1 text-brandRed transition bg-red-50';
         }
 
-        // Ẩn tất cả nội dung
         ['channelTabContent', 'wechatTabContent', 'toolsTabContent'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.classList.add('hidden');
         });
 
-        // Hiện nội dung tương ứng
         if (tab === 'wechat') {
             document.getElementById('wechatTabContent').classList.remove('hidden');
         } else if (tab === 'tools') {
             document.getElementById('toolsTabContent').classList.remove('hidden');
-            closeTool(); // Luôn về menu chính của Tools
+            closeTool(); 
         } else {
             document.getElementById('channelTabContent').classList.remove('hidden');
             renderCurrentTab();
         }
     }
 
-    // ==========================================
-    // HIỂN THỊ DANH SÁCH KÊNH
-    // ==========================================
     function renderCurrentTab() {
         const container = document.getElementById('channelsListContainer');
         const titleEl = document.getElementById('currentTabTitle');
@@ -529,9 +528,7 @@
         });
     }
 
-    // ==========================================
-    // CÔNG CỤ: TẢI VIDEO (GEN DOWNLOAD API)
-    // ==========================================
+    // TOOLS: TẢI VIDEO & OPEN CUT
     function openTool(toolName) {
         document.getElementById('toolsMenu').classList.add('hidden');
         if(toolName === 'downloader') document.getElementById('toolDownloader').classList.remove('hidden');
@@ -596,7 +593,6 @@
         const btn = document.getElementById('btnFetchVideo');
         const resultBox = document.getElementById('downloadResult');
         
-        // Trạng thái đang tải
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Đang xử lý...</span>';
         btn.disabled = true;
         resultBox.classList.add('hidden');
@@ -631,11 +627,9 @@
     function renderVideoData(data) {
         const resultBox = document.getElementById('downloadResult');
         
-        // 1. Cập nhật thông tin
         document.getElementById('vidTitle').innerText = `# ${data.title || 'Không có tiêu đề'}`;
         document.getElementById('vidAuthor').innerText = `Tác giả: ${data.author || 'Ẩn danh'} | Thời lượng: ${data.duration ? data.duration + 's' : 'Không rõ'}`;
         
-        // 2. Cập nhật ảnh xem trước
         const thumb = document.getElementById('vidThumb');
         if (data.thumbnail) {
             thumb.src = data.thumbnail;
@@ -644,12 +638,11 @@
             thumb.style.display = 'none';
         }
 
-        // 3. Tạo các nút tải
         const formatList = document.getElementById('formatList');
         formatList.innerHTML = '';
 
         data.formats.forEach((fmt) => {
-            if (!fmt.url) return; // Bỏ qua nếu không có link
+            if (!fmt.url) return;
 
             const isAudio = fmt.type === 'audio';
             const btnClass = isAudio 
@@ -662,7 +655,7 @@
 
             const btn = document.createElement('a');
             btn.href = fmt.url;
-            btn.setAttribute('download', ''); // Ép trình duyệt tải xuống
+            btn.setAttribute('download', '');
             btn.target = '_blank'; 
             btn.className = `${btnClass} font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition`;
             btn.innerHTML = `<i class="fa-solid ${icon}"></i> ${label} ${ext}`;
@@ -678,31 +671,13 @@
         resultBox.classList.add('flex');
     }
 
-    // ==========================================
-    // CÔNG CỤ: NỐI VIDEO
-    // ==========================================
-    function startConcat() {
-        const files = document.getElementById('videoFilesInput').files;
-        if (files.length < 2) return showToast('❌ Chọn ít nhất 2 video', true);
-        document.getElementById('concatResult').innerHTML = '<p class="text-purple-600 font-semibold">⏳ Đang nối (Chờ API)...</p>';
-    }
-
-    // ==========================================
-    // QUẢN TRỊ ADMIN
-    // ==========================================
+    // ADMIN & CRUD
     function setupSecretTrigger() {
         const logo = document.getElementById('secretLogoTrigger');
-        
-        function resetCounter() { 
-            logoClickCount = 0; 
-            clearTimeout(logoClickTimer); 
-        }
-        
+        function resetCounter() { logoClickCount = 0; clearTimeout(logoClickTimer); }
         function handleClick(e) {
             if (e) e.preventDefault();
             logoClickCount++;
-            
-            // Hiệu ứng nhấp nháy nhẹ khi bấm
             logo.style.transform = 'scale(0.95)';
             setTimeout(() => logo.style.transform = 'scale(1)', 100);
 
@@ -719,7 +694,6 @@
             clearTimeout(logoClickTimer);
             logoClickTimer = setTimeout(resetCounter, 3000);
         }
-        
         logo.addEventListener('pointerdown', handleClick);
     }
 
@@ -744,7 +718,7 @@
             closeAdminAuthModal();
             document.getElementById('adminToolbar').classList.remove('hidden');
             showToast('🔑 Đã mở khóa Admin!');
-            renderCurrentTab(); // Vẽ lại để hiện nút Sửa/Xóa
+            renderCurrentTab();
         } else {
             errEl.classList.remove('hidden');
             input.value = ''; 
@@ -759,9 +733,6 @@
         renderCurrentTab();
     }
 
-    // ==========================================
-    // CRUD KÊNH
-    // ==========================================
     function openAddModal() {
         if (!isAdmin) return;
         document.getElementById('editChannelId').value = '';
@@ -836,9 +807,6 @@
         }
     }
 
-    // ==========================================
-    // SAO CHÉP WECHAT
-    // ==========================================
     async function copyWeChatName() {
         try {
             await navigator.clipboard.writeText('👻正👻');
@@ -848,18 +816,13 @@
         }
     }
 
-    // ==========================================
-    // KHỞI TẠO TRANG
-    // ==========================================
     document.addEventListener('DOMContentLoaded', async () => {
         setupSecretTrigger();
         renderCurrentTab();
         
-        // Tải dữ liệu từ máy chủ
         channels = await loadChannels();
         renderCurrentTab();
 
-        // Lắng nghe sự kiện Enter ở ô nhập PIN
         const pinInput = document.getElementById('adminPinInput');
         if (pinInput) {
             pinInput.addEventListener('keydown', (e) => {
@@ -868,7 +831,6 @@
         }
     });
 
-    // Đăng ký Service Worker (PWA)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js').catch(err => console.log('SW Error:', err));
